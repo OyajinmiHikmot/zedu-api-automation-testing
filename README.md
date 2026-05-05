@@ -11,6 +11,8 @@ This project contains automated API tests written using **Jest** and **Axios**. 
 
 ```bash
 npm init -y
+cd
+
 ```
 
 This creates a `package.json` file.
@@ -190,6 +192,7 @@ npm test
 ### Step 3: Push to GitHub
 
 ```bash
+git init 
 git add .
 git commit -m "completed API test coverage"
 git push origin main
@@ -211,3 +214,7 @@ Organized folder structure
 README included
 GitHub repo updated
 No exposed secrets
+
+
+
+
