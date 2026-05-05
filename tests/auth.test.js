@@ -11,8 +11,9 @@ describe("Authentication API Tests", () => {
         });
 
         // Status code
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(200);
 
+        
         // Field presence
         expect(response.data.status).toBeDefined();
         expect(response.data.message).toBeDefined();
