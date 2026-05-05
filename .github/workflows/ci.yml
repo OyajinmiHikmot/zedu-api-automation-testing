@@ -2,7 +2,9 @@ name: API Automation Tests
 
 on:
   push:
+    branches: [ main, master, develop ]
   pull_request:
+    branches: [ main, master ]
 
 jobs:
   test:
@@ -10,15 +12,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Create .env file
         run: |
@@ -28,3 +31,21 @@ jobs:
 
       - name: Run tests
         run: npm test
+        env:
+          JEST_JUNIT_OUTPUT_FILE: test-results.xml
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: |
+            test-results.xml
+            coverage/
+          retention-days: 7
+
+      - name: Check test status
+        if: failure()
+        run: |
+          echo "❌ Tests failed! Check artifacts for details."
+          exit 1

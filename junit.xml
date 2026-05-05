@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="26" failures="0" errors="0" time="18.901">
+  <testsuite name="Users API Tests" errors="0" failures="0" skipped="0" timestamp="2026-05-05T16:10:29" time="11.284" tests="13">
+    <testcase classname="Users API Tests Authorized user should retrieve user status" name="Users API Tests Authorized user should retrieve user status" time="1.555">
+    </testcase>
+    <testcase classname="Users API Tests Get current authenticated user" name="Users API Tests Get current authenticated user" time="0.618">
+    </testcase>
+    <testcase classname="Users API Tests Get users list" name="Users API Tests Get users list" time="0.7">
+    </testcase>
+    <testcase classname="Users API Tests Get user by ID" name="Users API Tests Get user by ID" time="0.713">
+    </testcase>
+    <testcase classname="Users API Tests Delete invalid user should fail" name="Users API Tests Delete invalid user should fail" time="1.025">
+    </testcase>
+    <testcase classname="Users API Tests Update user with empty body should fail" name="Users API Tests Update user with empty body should fail" time="0.714">
+    </testcase>
+    <testcase classname="Users API Tests Deactivate user" name="Users API Tests Deactivate user" time="0.714">
+    </testcase>
+    <testcase classname="Users API Tests Reactivate user" name="Users API Tests Reactivate user" time="0.819">
+    </testcase>
+    <testcase classname="Users API Tests Access users without token should fail" name="Users API Tests Access users without token should fail" time="0.201">
+    </testcase>
+    <testcase classname="Users API Tests Invalid status update should fail" name="Users API Tests Invalid status update should fail" time="0.719">
+    </testcase>
+    <testcase classname="Users API Tests Presence update without token should fail" name="Users API Tests Presence update without token should fail" time="0.202">
+    </testcase>
+    <testcase classname="Users API Tests Invalid media preference update" name="Users API Tests Invalid media preference update" time="1.226">
+    </testcase>
+    <testcase classname="Users API Tests Reset auto download settings" name="Users API Tests Reset auto download settings" time="0.715">
+    </testcase>
+  </testsuite>
+  <testsuite name="Profile API Tests" errors="0" failures="0" skipped="0" timestamp="2026-05-05T16:10:40" time="4.227" tests="6">
+    <testcase classname="Profile API Tests Authorized user should retrieve profile" name="Profile API Tests Authorized user should retrieve profile" time="0.668">
+    </testcase>
+    <testcase classname="Profile API Tests Should fail with invalid token" name="Profile API Tests Should fail with invalid token" time="0.63">
+    </testcase>
+    <testcase classname="Profile API Tests Get profile with invalid user ID" name="Profile API Tests Get profile with invalid user ID" time="0.688">
+    </testcase>
+    <testcase classname="Profile API Tests Delete profile image without token should fail" name="Profile API Tests Delete profile image without token should fail" time="0.204">
+    </testcase>
+    <testcase classname="Profile API Tests Update profile status" name="Profile API Tests Update profile status" time="0.816">
+    </testcase>
+    <testcase classname="Profile API Tests Get user presence" name="Profile API Tests Get user presence" time="0.689">
+    </testcase>
+  </testsuite>
+  <testsuite name="Authentication API Tests" errors="0" failures="0" skipped="0" timestamp="2026-05-05T16:10:44" time="2.944" tests="7">
+    <testcase classname="Authentication API Tests Valid user login should return access token" name="Authentication API Tests Valid user login should return access token" time="0.609">
+    </testcase>
+    <testcase classname="Authentication API Tests Login should fail with wrong password" name="Authentication API Tests Login should fail with wrong password" time="0.63">
+    </testcase>
+    <testcase classname="Authentication API Tests Login should fail with wrong email" name="Authentication API Tests Login should fail with wrong email" time="0.276">
+    </testcase>
+    <testcase classname="Authentication API Tests Login should fail with empty email" name="Authentication API Tests Login should fail with empty email" time="0.199">
+    </testcase>
+    <testcase classname="Authentication API Tests Login should fail with empty password" name="Authentication API Tests Login should fail with empty password" time="0.201">
+    </testcase>
+    <testcase classname="Authentication API Tests Login should fail with missing email and password" name="Authentication API Tests Login should fail with missing email and password" time="0.204">
+    </testcase>
+    <testcase classname="Authentication API Tests Login should fail with invalid email format" name="Authentication API Tests Login should fail with invalid email format" time="0.203">
+    </testcase>
+  </testsuite>
+</testsuites>

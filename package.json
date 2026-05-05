@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --ci --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -18,14 +18,7 @@
     "dotenv": "^17.4.2"
   },
   "devDependencies": {
-    "jest": "^30.3.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OyajinmiHikmot/zedu-api-automation-testing.git"
-  },
-  "bugs": {
-    "url": "https://github.com/OyajinmiHikmot/zedu-api-automation-testing/issues"
-  },
-  "homepage": "https://github.com/OyajinmiHikmot/zedu-api-automation-testing#readme"
+    "jest": "^30.3.0",
+    "jest-junit": "^17.0.0"
+  }
 }
