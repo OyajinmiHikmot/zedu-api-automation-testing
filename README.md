@@ -1,52 +1,42 @@
 
-# API Testing Project (Jest + Axios)
+# API Automation Testing Project (Jest + Axios)
 
-This project contains automated API tests written using **Jest** and **Axios**. It covers authentication, user management, and profile-related endpoints with positive, negative, and edge case testing.
+This project contains automated API tests for the **Zedu platform**, built using **Jest** and **Axios**.
 
----
+It validates authentication, user management, and profile endpoints using:
 
-## 1. Project Setup
+* Positive test cases
+* Negative test cases
+* Edge cases
 
-### Step 1: Initialize Node project
-
-```bash
-npm init -y
-cd
-
-```
-
-This creates a `package.json` file.
+The project is designed to reflect **real-world QA automation practices**, including reusable authentication, environment configuration, and CI integration.
 
 ---
 
-### Step 2: Install dependencies
+## 1. Project Overview
 
-```bash
-npm install axios dotenv
-npm install --save-dev jest
-```
+This automation suite ensures that:
 
-* axios  for making HTTP requests
-* dotenv for environment variables
-* jest for testing framework
+* APIs behave correctly under valid conditions
+* Errors are properly handled
+* Edge cases do not break the system
+* Authentication is handled dynamically
 
----
-
-### Step 3: Configure Jest
-
-Open `package.json` and add:
-
-```json
-"scripts": {
-  "test": "jest --runInBand"
-}
-```
+All tests are independent, repeatable, and idempotent.
 
 ---
 
-## 2. Project Structure
+## 2. Tech Stack
 
-Create the following structure:
+* Node.js
+* Jest (test framework)
+* Axios (HTTP client)
+* dotenv (environment variable management)
+* GitHub Actions (CI/CD)
+
+---
+
+## 3. Project Structure
 
 ```
 project-root/
@@ -59,30 +49,73 @@ project-root/
 ├── utils/
 │   └── auth.js
 │
-├── .env
+├── .github/
+│   └── workflows/
+│       └── ci.yml   <-- GitHub Actions goes here
+│
+├── .env.example
+├── .gitignore
 ├── package.json
 └── README.md
 ```
 
 ---
 
-## 3. Environment Variables
+## 4. Environment Variables
 
-Create a `.env` file:
+Create a `.env` file in the root directory:
 
-```env
-BASE_URL=http://your-api-url.com
-EMAIL=your-email@example.com
+```
+BASE_URL=https://api.staging.zedu.chat/api/v1
+EMAIL=your-email
 PASSWORD=your-password
+```
+
+Important:
+
+* Do NOT commit `.env`
+* Provide `.env.example` for evaluators
+
+---
+
+## 5. Installation
+
+Clone the repository:
+
+```bash
+git clone <your-repo-link>
+cd project-root
+```
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
 ---
 
-## 4. Helper Utility
+## 6. Running Tests
 
-### `utils/auth.js`
+Run all tests:
 
-Used to fetch authentication token and user ID for tests.
+```bash
+npm test
+```
+
+Run a specific test file:
+
+```bash
+npx jest tests/auth.test.js
+```
+
+---
+
+## 7. Authentication Handling
+
+Authentication is handled dynamically via a reusable utility:
+
+**utils/auth.js**
 
 ```js
 const axios = require("axios");
@@ -103,118 +136,172 @@ async function getTestData() {
 module.exports = { getTestData };
 ```
 
+No tokens are hardcoded anywhere in the project.
+
 ---
 
-## 5. Running Tests
+## 8. Test Coverage
 
-Run all tests:
+### Authentication Tests
 
-```bash
-npm test
+* Valid login
+* Invalid password
+* Invalid email
+* Empty fields
+* Missing payload
+* Invalid email format
+
+### Profile Tests
+
+* Retrieve profile (authorized)
+* Invalid token access
+* Unauthorized actions
+* Update profile status
+* Get user presence
+
+### Users Tests
+
+* Get current user
+* Get users list
+* Get user by ID
+* Delete invalid user
+* Unauthorized access
+* Invalid updates
+* Media preference validation
+* Reset settings
+
+---
+
+## 9. Assertion Strategy
+
+Each test validates:
+
+* Status code
+* Response structure (field presence)
+* Data types
+* Field values
+* Error messages
+
+---
+
+## 10. Test Design Principles
+
+* Independent tests (no dependency between tests)
+* Repeatable execution
+* Dynamic test data
+* Clear and descriptive test names
+* Proper separation of concerns (utils vs tests)
+
+---
+
+## 11. Continuous Integration (CI)
+
+CI is configured using **GitHub Actions**.
+
+### Location of CI File
+
+```
+.github/workflows/ci.yml
 ```
 
-Run a single file:
+---
 
-```bash
-npx jest tests/auth.test.js
+### CI Pipeline Behavior
+
+The pipeline:
+
+* Runs on every push and pull request
+* Installs dependencies automatically
+* Injects environment variables securely
+* Executes all tests
+* Fails if any test fails
+* Uploads test reports as artifacts
+
+---
+
+### CI Workflow File (ci.yml)
+
+Use your working version:
+
+```yaml
+name: API Automation Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env file
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+          echo "EMAIL=${{ secrets.EMAIL }}" >> .env
+          echo "PASSWORD=${{ secrets.PASSWORD }}" >> .env
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: test-results.xml
 ```
 
 ---
 
-## 6. Test Coverage
+## 12. How to Verify CI Failure (Important)
 
-This project includes tests for:
+To confirm your pipeline behaves correctly:
 
-### Authentication
+1. Intentionally break a test:
 
-* Login success (positive test)
-* Wrong password (negative test)
-* Wrong email (negative test)
-* Empty fields (edge cases)
-* Invalid email format (edge case)
+   ```js
+   expect(1).toBe(2);
+   ```
 
----
+2. Push changes:
 
-### Profile
+   ```bash
+   git add .
+   git commit -m "test failure check"
+   git push
+   ```
 
-* Get user profile (positive)
-* Invalid token (negative)
-* Delete profile image without token (negative)
-* Update status (positive)
-* Get user presence (positive)
+3. Confirm:
 
----
+   * CI fails
+   * Logs show the error
 
-### Users
-
-* Get user by ID (positive)
-* Get current user (positive)
-* Get users list (positive)
-* Delete invalid user (negative)
-* Update with empty payload (edge case)
-* Deactivate user (positive)
-* Reactivate user (positive)
-* Unauthorized access (negative)
-* Invalid status update (negative)
-* Media preference errors (negative)
-* Reset auto-download settings (positive)
+4. Revert the change after testing
 
 ---
 
-## 7. Test Design Rules Used
+## 13. Submission Checklist
 
-Each test follows:
-
-* Positive test cases (valid API behavior)
-* Negative test cases (invalid input or unauthorized access)
-* Edge cases (empty payloads, invalid formats)
-* Proper assertions:
-
-  * Status codes
-  * Response structure
-  * Data types
-  * Key presence
-
----
-
-## 8. What to Do After Writing Tests
-
-After completing at least 25+ test cases:
-
-### Step 1: Run all tests
-
-```bash
-npm test
-```
-
-### Step 2: Fix failing tests if any
-
-### Step 3: Push to GitHub
-
-```bash
-git init 
-git add .
-git commit -m "completed API test coverage"
-git push origin main
-```
-
-### Step 4: Ensure:
-
-* `.env` is in `.gitignore`
-* No secrets are pushed
-
-
-9. Final Submission Checklist
-
-Before submitting:
-
-All tests passing
-Minimum 25 test cases written
-Organized folder structure
-README included
-GitHub repo updated
-No exposed secrets
-
-
-
-
+* Minimum 25 test cases
+* Includes negative and edge cases
+* All tests passing
+* No hardcoded tokens or credentials
+* Proper project structure
+* CI pipeline working
+* README complete
+* `.env` excluded from repository
