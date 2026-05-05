@@ -4,7 +4,7 @@ require("dotenv").config({ quiet: true });
 describe("Authentication API Tests", () => {
 
     // POSITIVE TEST CASE
-    test("Valid user login should return access token", async () => {
+    test("Valid user login should return access token", async () =>
         const response = await axios.post(`${process.env.BASE_URL}/auth/login`, {
             email: process.env.EMAIL,
             password: process.env.PASSWORD
